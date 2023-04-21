@@ -1,6 +1,6 @@
 
 export interface BaseProgressProps {
     colors: string[] | string;
-    backgroundColor: string;
-    progress: number;
+    backgroundColor: string[] | string;
+    value: number;
 };

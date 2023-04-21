@@ -16,7 +16,7 @@ const StepsProgress = (props: StepsProps) => {
     const {
         colors,
         backgroundColor,
-        progress,
+        value,
         lineHeight,
         size,
         steps,

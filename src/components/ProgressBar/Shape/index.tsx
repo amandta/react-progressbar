@@ -11,7 +11,7 @@ const ShapeProgress = (props: ShapeProps) => {
     const { 
         colors, 
         backgroundColor, 
-        progress, 
+        value, 
         icon, 
         width, 
         height 

@@ -14,7 +14,7 @@ const RadialProgress = (props: RadialProps) => {
         apperance, 
         colors, 
         backgroundColor, 
-        progress, 
+        value, 
         icon, 
         label, 
         sublabel, 
