@@ -1,0 +1,21 @@
+{
+  "name": "react-progress",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "npx only-allow yarn",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Amanda Alves (https://github.com/amandta)",
+  "license": "ISC",
+  "peerDependencies": {
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "only-allow": "^1.1.1"
+  }
+}
