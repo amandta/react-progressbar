@@ -14,14 +14,14 @@ interface StepsProps extends BaseProgressProps {
 
 const StepsProgress = (props: StepsProps) => {
     const {
-        colors,
-        backgroundColor,
-        value,
-        lineHeight,
-        size,
-        steps,
-        outlined,
-        roundness
+        // colors,
+        // backgroundColor,
+        // value,
+        // lineHeight,
+        // size,
+        // steps,
+        // outlined,
+        // roundness
     } = props;
 
     return (

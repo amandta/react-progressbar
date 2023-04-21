@@ -11,14 +11,14 @@ interface RadialProps extends BaseProgressProps {
 
 const RadialProgress = (props: RadialProps) => {
     const { 
-        apperance, 
-        colors, 
-        backgroundColor, 
-        value, 
-        icon, 
-        label, 
-        sublabel, 
-        size 
+        // apperance, 
+        // colors, 
+        // backgroundColor, 
+        // value, 
+        // icon, 
+        // label, 
+        // sublabel, 
+        // size 
     } = props;
 
     return (

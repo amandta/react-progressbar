@@ -1,8 +1,7 @@
 import React from "react";
 import { BaseProgressProps } from "../Base";
 
-export interface LinearProps extends BaseProgressProps {
-    label?: string;
+export interface LinearContainerProps extends BaseProgressProps {
     apperance: "straight" | "dotted";
     roundness?: {
         topLeft: number;
@@ -10,48 +9,79 @@ export interface LinearProps extends BaseProgressProps {
         topRight: number;
         bottomRight: number;
     } | number;
-    lineHeight: number;
+    height: number | string;
+    width: number | string;
 };
 
-const LinearProgress = (props: LinearProps) => {
+export interface LinearBarProps extends BaseProgressProps {
+    label?: string;
+    roundness?: {
+        topLeft: number;
+        bottomLeft: number;
+        topRight: number;
+        bottomRight: number;
+    } | number;
+    value: string;
+};
+
+const handleColor = (colors: string[] | string) => {
+    return (
+        Array.isArray(colors) ?
+            { backgroundImage: `linear-gradient(${colors.join(", ")})` }
+            :
+            { backgroundColor: colors }
+    );
+};
+
+const handleRoundness = (roundness?: { topLeft: number; bottomLeft: number; topRight: number; bottomRight: number; } | number) => {
+    if (!roundness) { return {} };
+
+    return (
+        typeof roundness === "object" ?
+            {
+                borderTopLeftRadius: roundness.topLeft,
+                borderBottomLeftRadius: roundness.bottomLeft,
+                borderTopRightRadius: roundness.topRight,
+                borderBottomRightRadius: roundness.bottomRight,
+            }
+            :
+            { borderRadius: roundness }
+    );
+};
+
+const Container = (props: LinearContainerProps & { children: React.ReactNode }) => {
     const {
         apperance,
         colors,
-        backgroundColor,
-        value,
-        lineHeight: height,
-        label,
-        roundness
+        height,
+        width,
+        roundness,
+        children
     } = props;
 
-    const handleColor = (colors: string[] | string) => {
-        return (
-            Array.isArray(colors) ?
-                { backgroundImage: `linear-gradient(${colors.join(", ")})` }
-                :
-                { backgroundColor: colors }
-        );
-    };
-
-    const handleRoundness = () => {
-        return (
-            typeof roundness === "object" ?
-                {
-                    borderTopLeftRadius: roundness.topLeft,
-                    borderBottomLeftRadius: roundness.bottomLeft,
-                    borderTopRightRadius: roundness.topRight,
-                    borderBottomRightRadius: roundness.bottomRight,
-                }
-                :
-                { borderRadius: roundness }
-        );
-    };
-
     return (
-        <div className="progress-container" style={{ height, ...handleRoundness(), ...handleColor(backgroundColor) }}>
-            <div className="progress-bar" style={{ width: `${value}%`, height, ...handleColor(colors) }} />
+        <div className="progress-container" style={{ height, width, ...handleRoundness(roundness), ...handleColor(colors) }}>
+            {children}
         </div>
     );
 };
 
-export default LinearProgress;
+const Bar = (props: LinearBarProps) => {
+    const {
+        colors,
+        value: width,
+        roundness,
+        label
+    } = props;
+
+    return (
+        <div className="progress-container" style={{ height: "100%", width, ...handleRoundness(roundness), ...handleColor(colors) }} />
+    )
+};
+
+const Linear = {
+    Container,
+    Bar
+};
+
+export default Linear;

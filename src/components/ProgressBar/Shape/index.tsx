@@ -9,12 +9,12 @@ interface ShapeProps extends BaseProgressProps {
 
 const ShapeProgress = (props: ShapeProps) => {
     const { 
-        colors, 
-        backgroundColor, 
-        value, 
-        icon, 
-        width, 
-        height 
+        // colors, 
+        // backgroundColor, 
+        // value, 
+        // icon, 
+        // width, 
+        // height 
     } = props;
 
     return (
