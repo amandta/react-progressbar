@@ -2,7 +2,7 @@ import React from "react";
 import { BaseProgressProps } from "../Base";
 
 export interface LinearContainerProps extends BaseProgressProps {
-    apperance: "straight" | "dotted";
+    appearance: "straight" | "dotted";
     roundness?: {
         topLeft: number;
         bottomLeft: number;
@@ -21,67 +21,66 @@ export interface LinearBarProps extends BaseProgressProps {
         topRight: number;
         bottomRight: number;
     } | number;
-    value: string;
 };
 
-const handleColor = (colors: string[] | string) => {
-    return (
-        Array.isArray(colors) ?
-            { backgroundImage: `linear-gradient(${colors.join(", ")})` }
-            :
-            { backgroundColor: colors }
-    );
+
+export default class Linear {
+    private container: LinearContainerProps;
+    private bar: LinearBarProps;
+
+    private utils = {
+        color: (colors: string[] | string) => {
+            return (
+                Array.isArray(colors) ?
+                    { backgroundImage: `linear-gradient(${colors.join(", ")})` }
+                    :
+                    { backgroundColor: colors }
+            );
+        },
+        roundness: (roundness?: { topLeft: number; bottomLeft: number; topRight: number; bottomRight: number; } | number) => {
+            if (!roundness) { return {} };
+
+            return (
+                typeof roundness === "object" ?
+                    {
+                        borderTopLeftRadius: roundness.topLeft,
+                        borderBottomLeftRadius: roundness.bottomLeft,
+                        borderTopRightRadius: roundness.topRight,
+                        borderBottomRightRadius: roundness.bottomRight,
+                    }
+                    :
+                    { borderRadius: roundness }
+            );
+        }
+    };
+
+    constructor({ container, bar }: { container: LinearContainerProps, bar: LinearBarProps }) {
+        this.container = container;
+        this.bar = bar;
+    };
+
+    Render = ({ value }: { value: string }): JSX.Element => {
+        return (
+            <div
+                className="progress-container"
+                style={{
+                    overflow: "hidden",
+                    height: this.container.height,
+                    width: this.container.width,
+                    ...this.utils.roundness(this.container.roundness),
+                    ...this.utils.color(this.container.colors)
+                }}
+            >
+                <div
+                    className="progress-container"
+                    style={{
+                        height: "100%",
+                        width: value,
+                        ...this.utils.roundness(this.bar.roundness),
+                        ...this.utils.color(this.bar.colors)
+                    }}
+                />
+            </div>
+        )
+    };
 };
-
-const handleRoundness = (roundness?: { topLeft: number; bottomLeft: number; topRight: number; bottomRight: number; } | number) => {
-    if (!roundness) { return {} };
-
-    return (
-        typeof roundness === "object" ?
-            {
-                borderTopLeftRadius: roundness.topLeft,
-                borderBottomLeftRadius: roundness.bottomLeft,
-                borderTopRightRadius: roundness.topRight,
-                borderBottomRightRadius: roundness.bottomRight,
-            }
-            :
-            { borderRadius: roundness }
-    );
-};
-
-const Container = (props: LinearContainerProps & { children: React.ReactNode }) => {
-    const {
-        apperance,
-        colors,
-        height,
-        width,
-        roundness,
-        children
-    } = props;
-
-    return (
-        <div className="progress-container" style={{ height, width, ...handleRoundness(roundness), ...handleColor(colors) }}>
-            {children}
-        </div>
-    );
-};
-
-const Bar = (props: LinearBarProps) => {
-    const {
-        colors,
-        value: width,
-        roundness,
-        label
-    } = props;
-
-    return (
-        <div className="progress-container" style={{ height: "100%", width, ...handleRoundness(roundness), ...handleColor(colors) }} />
-    )
-};
-
-const Linear = {
-    Container,
-    Bar
-};
-
-export default Linear;

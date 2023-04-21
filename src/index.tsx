@@ -3,26 +3,23 @@ import { createRoot } from "react-dom/client"
 import Linear from "./components/ProgressBar/Linear";
 
 const App = () => {
+    const Progress = new Linear({
+        container: {
+            appearance: "straight",
+            colors: "black",
+            height: 15,
+            width: "100%",
+            roundness: 15
+        },
+        bar: {
+            colors: ["to right", "green", "yellow"],
+            roundness: 15
+        }
+    });
+
     return (
         <>
-            <Linear.Container
-                apperance="straight"
-                colors={["to right", "black", "darkred"]}
-                height={15}
-                width={"100%"}
-                roundness={15}
-            >
-                <Linear.Bar
-                    value={"50%"}
-                    colors={["to right", "blue", "red"]}
-                    roundness={{
-                        bottomLeft: 15,
-                        topLeft: 15,
-                        bottomRight: 0,
-                        topRight: 0
-                    }}
-                />
-            </Linear.Container>
+            <Progress.Render value={"15%"} />
         </>
     );
 };
