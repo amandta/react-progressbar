@@ -23,7 +23,7 @@ export interface LinearBarProps extends BaseProgressProps {
         bottomRight: number;
     } | number;
     float?: "left" | "right";
-    animated?: boolean;
+    animations?: ("progress" | "stripes")[];
     pointer?: {
         style: "tooltip" | "string" | "icon";
         source?: string;
@@ -81,7 +81,6 @@ export default class Linear {
                     <div
                         className="linear-dotted-progress"
                         style={{
-                            overflow: "hidden",
                             display: "flex",
                             flexDirection: "row",
                             columnGap: 6,
@@ -106,7 +105,7 @@ export default class Linear {
                                         }}
                                     >
                                         <div
-                                            className={`linear-dotted-progress-bar ${this.bar.animated && "animated-bar"}`}
+                                            className={`linear-dotted-progress-bar ${this.bar.animations?.includes("progress") && "animated-bar"}`}
                                             style={{
                                                 flex: 1,
                                                 height: "100%",
@@ -119,7 +118,7 @@ export default class Linear {
                                         />
                                     </div>
                                 ))
-                        };
+                        }
                     </div>
                 );
             case "straight":
@@ -135,7 +134,7 @@ export default class Linear {
                         }}
                     >
                         <div
-                            className={`linear-progress-bar ${this.bar.animated && "animated-bar"}`}
+                            className={`linear-progress-bar ${this.bar.animations?.includes("progress") && "animated-bar"}`}
                             style={{
                                 height: "100%",
                                 width: progress,

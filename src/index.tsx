@@ -13,7 +13,7 @@ const Progress = new Linear({
     bar: {
         colors: ["to right", "green", "yellow"],
         roundness: 0,
-        animated: false,
+        animations: ["progress"]
     }
 });
 
@@ -21,16 +21,26 @@ const DottedProgress = new Linear({
     container: {
         appearance: "dotted",
         dots: 3,
-        colors: ["to right", "darkred", "darkgreen"],
-        height: 5,
+        colors: "gray",
+        height: 10,
         width: "100%",
-        roundness: 15,
+        roundness: 20,
     },
     bar: {
-        colors: ["to right", "green", "yellow"],
+        colors: "#ffb7c5",
         roundness: 0,
-        animated: true,
+        animations: ["progress"]
     }
+});
+
+const BasicProgress = new Linear({
+    container: {
+        appearance: "straight",
+        colors: "darkred",
+        height: 10,
+        width: "100%",
+    },
+    bar: { colors: "red" }
 });
 
 const App = () => {
@@ -41,6 +51,8 @@ const App = () => {
             <Progress.Render value={progress + "%"} />
             <br />
             <DottedProgress.Render value={progress + "%"} />
+            <br />
+            <BasicProgress.Render value={progress + "%"} />
             <br />
             <button onClick={() => setProgress(progress + 5)}>
                 increase
