@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BaseProgressProps } from "../Base";
+import "./Linear.style.css";
 
 export interface LinearContainerProps extends BaseProgressProps {
     appearance: "straight" | "dotted";
@@ -68,6 +69,12 @@ export default class Linear {
     };
 
     Render = ({ value }: { value: string }): JSX.Element => {
+        const [progress, setProgress] = useState("0%");
+
+        useEffect(() => {
+            setProgress(value);
+        }, [value]);
+
         switch (this.container.appearance) {
             case "dotted":
                 return (
@@ -89,23 +96,25 @@ export default class Linear {
                                     <div
                                         className="linear-dotted-progress-container"
                                         style={{
-                                            overflow: "hidden",
                                             flex: 1,
+                                            overflow: "hidden",
                                             height: "100%",
+                                            backgroundRepeat: "no-repeat",
+                                            backgroundAttachment: "fixed",
                                             ...this.utils.roundness(this.container.roundness),
                                             ...this.utils.color(this.container.colors),
                                         }}
                                     >
                                         <div
-                                            className="linear-dotted-progress-bar"
+                                            className={`linear-dotted-progress-bar ${this.bar.animated && "animated-bar"}`}
                                             style={{
                                                 flex: 1,
                                                 height: "100%",
-                                                width: `calc((${value} * ${this.container.dots}) - (100% * ${index}))`, //(progress * bars) - (100% * current)
+                                                width: `calc((${progress} * ${this.container.dots}) - (100% * ${index}))`, //(progress * bars) - (100% * current)
                                                 backgroundRepeat: "no-repeat",
                                                 backgroundAttachment: "fixed",
                                                 ...this.utils.roundness(this.bar.roundness),
-                                                ...this.utils.color(this.bar.colors),
+                                                ...this.utils.color(this.bar.colors)
                                             }}
                                         />
                                     </div>
@@ -126,10 +135,10 @@ export default class Linear {
                         }}
                     >
                         <div
-                            className="linear-progress-bar"
+                            className={`linear-progress-bar ${this.bar.animated && "animated-bar"}`}
                             style={{
                                 height: "100%",
-                                width: value,
+                                width: progress,
                                 float: this.bar.float || "left",
                                 ...this.utils.roundness(this.bar.roundness),
                                 ...this.utils.color(this.bar.colors)
