@@ -3,6 +3,7 @@ import { BaseProgressProps } from "../Base";
 
 export interface LinearContainerProps extends BaseProgressProps {
     appearance: "straight" | "dotted";
+    dots?: number;
     roundness?: {
         topLeft: number;
         bottomLeft: number;
@@ -14,13 +15,20 @@ export interface LinearContainerProps extends BaseProgressProps {
 };
 
 export interface LinearBarProps extends BaseProgressProps {
-    label?: string;
     roundness?: {
         topLeft: number;
         bottomLeft: number;
         topRight: number;
         bottomRight: number;
     } | number;
+    float?: "left" | "right";
+    animated?: boolean;
+    pointer?: {
+        style: "tooltip" | "string" | "icon";
+        source?: string;
+        width: number;
+        height: number;
+    };
 };
 
 
@@ -60,27 +68,75 @@ export default class Linear {
     };
 
     Render = ({ value }: { value: string }): JSX.Element => {
-        return (
-            <div
-                className="progress-container"
-                style={{
-                    overflow: "hidden",
-                    height: this.container.height,
-                    width: this.container.width,
-                    ...this.utils.roundness(this.container.roundness),
-                    ...this.utils.color(this.container.colors)
-                }}
-            >
-                <div
-                    className="progress-container"
-                    style={{
-                        height: "100%",
-                        width: value,
-                        ...this.utils.roundness(this.bar.roundness),
-                        ...this.utils.color(this.bar.colors)
-                    }}
-                />
-            </div>
-        )
+        switch (this.container.appearance) {
+            case "dotted":
+                return (
+                    <div
+                        className="linear-dotted-progress"
+                        style={{
+                            overflow: "hidden",
+                            display: "flex",
+                            flexDirection: "row",
+                            columnGap: 6,
+                            height: this.container.height,
+                            width: this.container.width,
+                            ...this.utils.roundness(this.container.roundness)
+                        }}
+                    >
+                        {
+                            [...Array(this.container.dots)] //Repeat component this.container.dots number of times
+                                .map((_, index): React.ReactNode => (
+                                    <div
+                                        className="linear-dotted-progress-container"
+                                        style={{
+                                            overflow: "hidden",
+                                            flex: 1,
+                                            height: "100%",
+                                            ...this.utils.roundness(this.container.roundness),
+                                            ...this.utils.color(this.container.colors),
+                                        }}
+                                    >
+                                        <div
+                                            className="linear-dotted-progress-bar"
+                                            style={{
+                                                flex: 1,
+                                                height: "100%",
+                                                width: `calc((${value} * ${this.container.dots}) - (100% * ${index}))`, //(progress * bars) - (100% * current)
+                                                backgroundRepeat: "no-repeat",
+                                                backgroundAttachment: "fixed",
+                                                ...this.utils.roundness(this.bar.roundness),
+                                                ...this.utils.color(this.bar.colors),
+                                            }}
+                                        />
+                                    </div>
+                                ))
+                        };
+                    </div>
+                );
+            case "straight":
+                return (
+                    <div
+                        className="linear-progress-container"
+                        style={{
+                            overflow: "hidden",
+                            height: this.container.height,
+                            width: this.container.width,
+                            ...this.utils.roundness(this.container.roundness),
+                            ...this.utils.color(this.container.colors)
+                        }}
+                    >
+                        <div
+                            className="linear-progress-bar"
+                            style={{
+                                height: "100%",
+                                width: value,
+                                float: this.bar.float || "left",
+                                ...this.utils.roundness(this.bar.roundness),
+                                ...this.utils.color(this.bar.colors)
+                            }}
+                        />
+                    </div>
+                );
+        };
     };
 };

@@ -1,33 +1,8 @@
-import React from "react";
-import { BaseProgressProps } from "../Base";
+/*
 
-interface StepsProps extends BaseProgressProps {
-    steps: {
-        unselected: ImageData | string;
-        selected: ImageData | string;
-    }[];
-    outlined?: boolean;
-    roundness?: number;
-    lineHeight: number;
-    size: number;
-};
+The StepsProgressBar will be a highly customizable bar where you can insert SVG for each step, 
+and by default these will be circles.
 
-const StepsProgress = (props: StepsProps) => {
-    const {
-        // colors,
-        // backgroundColor,
-        // value,
-        // lineHeight,
-        // size,
-        // steps,
-        // outlined,
-        // roundness
-    } = props;
+They can also be similar to a LinearProgressBar where each step is a color or a gradient.
 
-    return (
-        <>
-        </>
-    );
-};
-
-export default StepsProgress;
+*/
